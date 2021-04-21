@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.restful.model.Student;
@@ -45,8 +46,15 @@ public class MainController {
 	    return li;
 	}
 	
+	// http://localhost:8080/restful/main/getStudent/id
 	@GetMapping("/getStudent/{id}")
 	public Student getStudentById(@PathVariable("id") int id) {
+	    return li.get(id - 1);
+	}
+	
+	// http://localhost:8080/restful/main/getStudentid?id=1
+	@GetMapping("/getStudentid")
+	public Student getStudentId(@RequestParam int id) {
 	    return li.get(id - 1);
 	}
 	
