@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.restful.exception.StudentException;
 import com.spring.restful.model.Student;
+import com.spring.restful.model.StudentError;
 
 // http://localhost:8080/restful/
 @RestController  
@@ -59,7 +62,21 @@ public class MainController {
 	// http://localhost:8080/restful/main/getStudentid?id=1
 	@GetMapping("/getStudentid")
 	public Student getStudentId(@RequestParam int id) {
+		if(id<0 || id > li.size()) {
+			throw new StudentException("Student Not Found !");
+		}
 	    return li.get(id - 1);
+	}
+	
+	public ResponseEntity<StudentError> getException(StudentException se){
+		StudentError studentError = new StudentError();
+		studentError.setStatusCode(HttpStatus.NOT_FOUND.value());
+		studentError.setMessage(se.getMessage());
+		studentError.setTimeStamp(System.currentTimeMillis());
+		
+		return new ResponseEntity<StudentError>(studentError,HttpStatus.NOT_FOUND);
+		
+		
 	}
 	
 }
