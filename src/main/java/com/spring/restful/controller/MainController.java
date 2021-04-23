@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.restful.exception.StudentException;
 import com.spring.restful.model.Student;
 
 // http://localhost:8080/restful/
@@ -49,6 +50,9 @@ public class MainController {
 	// http://localhost:8080/restful/main/getStudent/id
 	@GetMapping("/getStudent/{id}")
 	public Student getStudentById(@PathVariable("id") int id) {
+		if(id<0 || id > li.size()) {
+			throw new StudentException("Student Not Found !");
+		}
 	    return li.get(id - 1);
 	}
 	
