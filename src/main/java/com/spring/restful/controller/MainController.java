@@ -70,12 +70,21 @@ public class MainController {
 	}
 	
 	@ExceptionHandler
-	public ResponseEntity<StudentError> getException(StudentException se){
+	public ResponseEntity<StudentError> getExceptionNotFound(StudentException se){
 		StudentError studentError = new StudentError();
 		studentError.setStatusCode(HttpStatus.NOT_FOUND.value());
 		studentError.setMessage(se.getMessage());
 		studentError.setTimeStamp(System.currentTimeMillis());
 		return new ResponseEntity<StudentError>(studentError,HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<StudentError> getException(Exception se){
+		StudentError studentError = new StudentError();
+		studentError.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		studentError.setMessage(se.getMessage());
+		studentError.setTimeStamp(System.currentTimeMillis());
+		return new ResponseEntity<StudentError>(studentError,HttpStatus.BAD_REQUEST);
 	} 
 	
 }
